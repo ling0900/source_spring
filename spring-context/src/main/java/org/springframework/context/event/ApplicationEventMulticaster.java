@@ -26,6 +26,8 @@ import org.springframework.lang.Nullable;
 /**
  * Interface to be implemented by objects that can manage a number of
  * {@link ApplicationListener} objects and publish events to them.
+ * <p>
+ *     这个接口的实现可以管理一组 {@link ApplicationListener} 对象，并将事件发布给它们。
  *
  * <p>An {@link org.springframework.context.ApplicationEventPublisher}, typically
  * a Spring {@link org.springframework.context.ApplicationContext}, can use an
