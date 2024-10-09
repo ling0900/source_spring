@@ -578,8 +578,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * 可以理解为都得走这一步，因为是个模板类，最终他的子类会增加自己的额外逻辑，最后会通过super.refresh() 方法来刷新
 	 * 所以这个方法非常重要了。
 	 *
-	 * @throws BeansException
-	 * @throws IllegalStateException
 	 */
 	@Override
 	public void refresh() throws BeansException, IllegalStateException {
@@ -590,17 +588,18 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			StartupStep contextRefresh = this.applicationStartup.start("spring.context.refresh");
 
 			logger.warn("prepare refresh");
-			// Prepare this context for refreshing. 准备要刷新的内容
-			// 这个方法用于准备刷新应用程序上下文。它会设置启动时间、激活标志，并执行一些属性源的初始化操作。
+			// Prepare this context for refreshing.
+			// 准备要刷新的内容：这个方法用于准备刷新应用程序上下文。它会设置启动时间、激活标志，并执行一些属性源的初始化操作。
 			prepareRefresh();
 
 			logger.warn("创建一个对象，一个fresh的 ConfigurableListableBeanFactory");
-			// Tell the subclass to refresh the internal bean factory. 让子类刷新内部的 beanFactory DefaultListableBeanFactory
-			// 其实这里就是创建了一个 beanFactory
-			// tip： factoryBean 返回的是 其 getObject 方法返回的对象；区分二者，用开头的字母来区分就可以。
-			/**
+			// Tell the subclass to refresh the internal bean factory.
+
+			/*
+			 * 让子类刷新内部的 beanFactory DefaultListableBeanFactory
+			 * tip： factoryBean 返回的是 其 getObject 方法返回的对象；区分二者，用开头的字母来区分就可以。
+			 * 其实这里就是创建了一个 beanFactory
 			 * ConfigurableListableBeanFactory 是 Spring 中 BeanFactory 的一种可配置、可列出的扩展接口。它提供了一些更高级的功能，例如：
-			 *
 			 * 列出所有 Bean 定义：可以访问所有已经注册的 BeanDefinition，并允许在创建实例之前修改这些定义。
 			 * 单例模式的缓存：它可以管理已经创建好的单例 bean 的缓存，优化性能。
 			 * 合并 BeanDefinition：它可以合并父类和子类的 BeanDefinition，从而继承父类定义的一些公共属性。
@@ -612,7 +611,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			// Prepare the bean factory for use in this context.
 			prepareBeanFactory(beanFactory);
 
-			/**
+			/*
 			 * 上面的代码做的工作有：主要是准备工作，主要是创建了一个beanFactory对象
 			 * ConfigurableListableBeanFactory
 			 */
@@ -634,7 +633,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				registerBeanPostProcessors(beanFactory);
 				beanPostProcess.end();
 
-				/**
+				/*
 				 * 上面做的工作是：注册beanFactoryPostProcessor，用于在beanFactory创建完成后进行一些额外的处理。
 				 */
 
@@ -642,14 +641,14 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				initMessageSource();
 
 				// Initialize event multicaster for this context.
-				/**
+				/*
 				 * 负责初始化事件广播器并注册事件监听器，以确保当事件被发布时，所有相关的监听器能够正确地接收和处理这些事件。
 				 * 这一机制增强了 Spring 应用程序的解耦性和响应能力，使得不同组件之间可以通过事件进行有效的协作。
 				 */
 				initApplicationEventMulticaster();
 
 				// Initialize other special beans in specific context subclasses.
-				/**
+				/*
 				 * onRefresh() 方法是 Spring 框架在上下文刷新时执行的关键逻辑，它提供了一个钩子，使得开发者可以在上下文生命周期
 				 * 的特定时刻插入自定义的初始化逻辑。通过合理使用 onRefresh()，开发者可以更好地管理应用程序的状态和资源，
 				 * 提高应用程序的灵活性和可维护性。
@@ -967,6 +966,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/**
 	 * Add beans that implement ApplicationListener as listeners.
 	 * Doesn't affect other listeners, which can be added without being beans.
+	 * <p>
+	 * 添加（注册）监听器。
+	 * @see org.springframework.context.event.ApplicationListenerDetector
 	 */
 	protected void registerListeners() {
 		// Register statically specified listeners first.
