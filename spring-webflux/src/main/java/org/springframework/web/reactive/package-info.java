@@ -8,6 +8,8 @@
  * One based on annotated {@code @Controller}'s and another based on functional
  * routing and handling. The module also contains a functional, reactive
  * {@code WebClient} as well as client and server, reactive WebSocket support.
+ *
+ * <p> 可以借鉴这个项目下的代码。
  */
 @NonNullApi
 @NonNullFields
