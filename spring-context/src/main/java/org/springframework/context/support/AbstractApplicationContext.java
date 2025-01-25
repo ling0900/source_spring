@@ -577,7 +577,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/**
 	 * 可以理解为都得走这一步，因为是个模板类，最终他的子类会增加自己的额外逻辑，最后会通过super.refresh() 方法来刷新
 	 * 所以这个方法非常重要了。
-	 *
+	 * 标记 启动流程。
 	 */
 	@Override
 	public void refresh() throws BeansException, IllegalStateException {
